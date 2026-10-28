@@ -1,0 +1,25 @@
+rules_version = '2';
+
+// ResumeGEN's React client never reads or writes Firestore directly. Every
+// portfolio, job description, resume and integration operation goes through
+// the Express API, which verifies the Firebase ID token and then uses the
+// Admin SDK. Direct client access is therefore denied by default.
+//
+// This is intentionally stricter than "owner can read/write": it prevents a
+// compromised browser session from bypassing server-side validation, ownership
+// checks, AI-grounding checks or the immutable resume snapshot rules.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
+// If you later add a client-side read-only feature, scope it explicitly and
+// keep writes server-only. Example:
+//
+// match /users/{uid}/{collection}/{document} {
+//   allow read: if request.auth != null && request.auth.uid == uid;
+//   allow write: if false;
+// }

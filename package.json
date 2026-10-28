@@ -11,6 +11,8 @@
     "typecheck": "npm --prefix Backend run typecheck && npm --prefix Frontend run typecheck",
     "lint": "npm --prefix Frontend run lint",
     "test": "npm --prefix Backend test && npm --prefix Frontend test",
+    "test:e2e": "node scripts/e2e.mjs",
+    "screenshots": "node scripts/capture-screenshots.mjs",
     "build": "npm --prefix Backend run build && npm --prefix Frontend run build",
     "seed": "npm --prefix Backend run seed"
   },

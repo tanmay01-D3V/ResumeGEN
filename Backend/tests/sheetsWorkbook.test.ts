@@ -82,7 +82,7 @@ describe('Google Sheets workbook export', () => {
     const value = (header: string) => row[tab.headers.indexOf(header)];
 
     expect(value('Responsibilities')).toBe('Built APIs; Reviewed pull requests');
-    expect(value('Current')).toBe('Yes');
+    expect(value('Current role?')).toBe('Yes');
   });
 });
 
@@ -176,7 +176,7 @@ describe('Google Sheets row import parsing', () => {
       data: {
         organization: 'Acme',
         jobTitle: 'Engineer',
-        current: 'yes',
+        current: true,
         responsibilities: ['Built APIs'],
       },
     });

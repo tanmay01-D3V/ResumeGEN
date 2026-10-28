@@ -1,0 +1,33 @@
+Full-Stack Developer — Bluewave Labs (fictional demo company)
+
+About the role
+Join a small product team building customer-facing web applications. You will own features from database schema through React interface and REST API, and work closely with designers and QA.
+
+Responsibilities
+- Build responsive user interfaces with React, JavaScript or TypeScript.
+- Develop REST APIs with Node.js and Express.js.
+- Design relational and document database schemas, and write efficient queries.
+- Integrate frontend and backend services, including authentication and validation.
+- Write maintainable code, review pull requests and use Git for version control.
+- Collaborate with designers, QA and product managers in an agile team.
+
+Required qualifications
+- Bachelor's degree in Computer Science, Software Engineering or equivalent practical experience.
+- 0-2 years of experience building web applications, including academic or internship projects.
+- Strong JavaScript or TypeScript skills.
+- Hands-on experience with React, Node.js and Express.js.
+- Understanding of REST APIs and database design using SQL or PostgreSQL.
+- Experience with Git and collaborative development.
+- At least one relevant web application project.
+- Good communication and teamwork skills.
+
+Preferred qualifications
+- Experience with Docker or AWS.
+- Familiarity with automated testing.
+- Exposure to MongoDB is a plus.
+- Meta Front-End Developer Professional Certificate is preferred but not required.
+
+Applications without a portfolio or project evidence are difficult to assess. Show what you built and the decisions you made.
+
+---
+Fictional sample for ResumeGEN demos. Any resemblance to a real posting is coincidental.

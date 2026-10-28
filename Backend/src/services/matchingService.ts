@@ -375,7 +375,7 @@ export function matchDeterministic(
 
 /** A requirement is skill-like when it is short and maps to a known skill name. */
 function analyzeSkillLike(text: string): boolean {
-  const normalized = normalizeForCompare(text);
+  const normalized = canonicalSkill(text);
   if (normalized.split(' ').length > 5) return false;
   return [
     'python', 'javascript', 'typescript', 'react', 'node js', 'express js', 'sql', 'postgresql',

@@ -36,5 +36,9 @@ export function ensureHttpUrl(value: string): string {
 }
 
 export function isSafeHttpUrl(value: string): boolean {
+  if (!value) return false;
+  // Reject non-HTTP schemes (javascript:, data:, vbscript:) before prepending.
+  const scheme = value.trim().match(/^([a-z][a-z0-9+.-]*):/i);
+  if (scheme && !/^https?$/i.test(scheme[1]!)) return false;
   return /^https?:\/\/[^\s]+$/i.test(ensureHttpUrl(value));
 }

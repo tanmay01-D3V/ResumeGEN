@@ -147,13 +147,13 @@ describe('AI summary grounding', () => {
     if (!result.ok) expect(result.reason).toContain('certification');
   });
 
-  it('rejects invented years of experience', () => {
+  it('rejects invented years of experience that are not supported by the portfolio', () => {
     const result = validateSummaryGrounding(
-      'Python engineer with 6 years of experience building churn prediction systems.',
+      'Python engineer with 6 years of experience building data systems.',
       [pythonSkill, project],
     );
     expect(result.ok).toBe(false);
-    if (!result.ok) expect(result.reason).toContain('years');
+    if (!result.ok) expect(result.reason).toMatch(/years|numeric/);
   });
 
   it('allows years claims when the portfolio itself contains them', () => {

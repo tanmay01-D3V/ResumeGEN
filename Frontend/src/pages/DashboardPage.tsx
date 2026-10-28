@@ -178,7 +178,7 @@ export function DashboardPage() {
           </div>
 
           <div className="grid gap-5 lg:grid-cols-[1.6fr_1fr]">
-            <div className="space-y-5">
+            <div className="min-w-0 space-y-5">
               <Card>
                 <CardHeader className="flex-row items-start justify-between gap-4">
                   <div>
@@ -275,7 +275,7 @@ export function DashboardPage() {
               </Card>
             </div>
 
-            <div className="space-y-5">
+            <div className="min-w-0 space-y-5">
               <Card>
                 <CardHeader>
                   <div className="flex items-center justify-between">

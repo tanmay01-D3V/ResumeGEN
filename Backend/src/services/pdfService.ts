@@ -307,6 +307,10 @@ export function renderResumePdf(document: ResumeDocument): Promise<Buffer> {
           .strokeColor('#e2e8f0')
           .lineWidth(0.6)
           .stroke();
+        // The footer is intentionally inside the bottom margin. Temporarily
+        // allow drawing there so PDFKit does not append an empty page.
+        const previousBottomMargin = doc.page.margins.bottom;
+        doc.page.margins.bottom = 0;
         doc
           .font(layout.fontRegular)
           .fontSize(7.5)
@@ -317,6 +321,7 @@ export function renderResumePdf(document: ResumeDocument): Promise<Buffer> {
             pageBottom,
             { width: contentWidth, align: 'center', lineBreak: false },
           );
+        doc.page.margins.bottom = previousBottomMargin;
       }
 
       doc.end();

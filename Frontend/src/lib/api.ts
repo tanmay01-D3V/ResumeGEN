@@ -20,6 +20,7 @@ import type {
   StructuredRecordCandidate,
   UserProfile,
 } from '@shared/types';
+import { downloadBlob } from './utils';
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '/api').replace(/\/$/, '');
 const TOKEN_KEY = 'resumegen.token';
@@ -103,7 +104,6 @@ async function download(path: string, body: unknown, fallbackName: string): Prom
   });
   if (!response.ok) throw await parseError(response);
   const blob = await response.blob();
-  const { downloadBlob } = await import('./utils');
   const disposition = response.headers.get('content-disposition') ?? '';
   const match = disposition.match(/filename\*?=(?:UTF-8'')?"?([^";]+)"?/i);
   downloadBlob(blob, match ? decodeURIComponent(match[1]) : fallbackName);
@@ -116,7 +116,6 @@ async function downloadGet(path: string, fallbackName: string): Promise<void> {
   });
   if (!response.ok) throw await parseError(response);
   const blob = await response.blob();
-  const { downloadBlob } = await import('./utils');
   const disposition = response.headers.get('content-disposition') ?? '';
   const match = disposition.match(/filename\*?=(?:UTF-8'')?"?([^";]+)"?/i);
   downloadBlob(blob, match ? decodeURIComponent(match[1]) : fallbackName);
@@ -197,11 +196,15 @@ export const api = {
     ),
 
   listJobs: () => request<{ jobDescriptions: JobDescription[] }>('/job-descriptions'),
-  getJob: (id: string) => request<{ job: JobDescription }>(`/job-descriptions/${id}`),
+  getJob: (id: string) =>
+    request<{ jobDescription: JobDescription }>(`/job-descriptions/${id}`),
   createJob: (input: JobDescriptionInput) =>
-    request<{ job: JobDescription }>('/job-descriptions', { method: 'POST', body: input }),
+    request<{ jobDescription: JobDescription }>('/job-descriptions', { method: 'POST', body: input }),
   updateJob: (id: string, input: JobDescriptionInput) =>
-    request<{ job: JobDescription }>(`/job-descriptions/${id}`, { method: 'PATCH', body: input }),
+    request<{ jobDescription: JobDescription }>(`/job-descriptions/${id}`, {
+      method: 'PATCH',
+      body: input,
+    }),
   deleteJob: (id: string) =>
     request<{ id: string; deleted: boolean }>(`/job-descriptions/${id}`, { method: 'DELETE' }),
   analyzeJob: (id: string) =>

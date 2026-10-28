@@ -191,6 +191,18 @@ Preferred qualifications
     expect(created.status).toBe(201);
     const job = created.body.data.jobDescription;
 
+    const fetched = await request(app)
+      .get(`/api/job-descriptions/${job.id}`)
+      .set(bearer(token));
+    expect(fetched.status).toBe(200);
+    expect(fetched.body.data.jobDescription.id).toBe(job.id);
+    expect(fetched.body.data.jobDescription.jobTitle).toBe('Backend Engineer');
+
+    const missing = await request(app)
+      .get('/api/job-descriptions/jd_missing')
+      .set(bearer(token));
+    expect(missing.status).toBe(404);
+
     const analyzed = await request(app)
       .post(`/api/job-descriptions/${job.id}/analyze`)
       .set(bearer(token));

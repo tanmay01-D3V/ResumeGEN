@@ -54,7 +54,7 @@ export function JobDetailPage() {
     setError(null);
     try {
       const result = await api.getJob(id);
-      setJob(result.job);
+      setJob(result.jobDescription);
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'Could not load this job.');
     } finally {

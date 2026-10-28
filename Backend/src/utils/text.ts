@@ -234,8 +234,21 @@ export function tokenOverlap(requirement: string, corpus: string): number {
 export function splitSentences(text: string): string[] {
   return text
     .split(/\n+|(?<=[.!?])\s+(?=[A-Z0-9])/g)
-    .map((line) => line.replace(/^[\s•\-*–—\d.)]+/, '').trim())
+    .map((line) => stripListMarker(line))
     .filter((line) => line.length > 2);
+}
+
+/**
+ * Removes bullet/numbering markers without destroying leading values such as
+ * "0-2 years of experience". Only separators that look like list syntax are
+ * removed, so ranges at the start of a line survive extraction.
+ */
+export function stripListMarker(value: string): string {
+  return value
+    .replace(/^[\s\u2022\u25CF\u25AA\u25E6*]+/u, '')
+    .replace(/^[-\u2013\u2014]\s+/u, '')
+    .replace(/^\d{1,2}[.)]\s+/u, '')
+    .trim();
 }
 
 export function splitList(value: string): string[] {

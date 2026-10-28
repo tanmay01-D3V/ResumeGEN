@@ -39,6 +39,15 @@ import { ResumePreview } from '@/components/resume/ResumePreview';
 import { useAuth } from '@/contexts/AuthContext';
 import { api } from '@/lib/api';
 import {
+  buildBuilderSignature,
+  filterRecords,
+  isPreviewStale,
+  selectableRecords,
+  suggestedSelection,
+  toggleSelection,
+  uniqueIds,
+} from '@/lib/builder';
+import {
   cn,
   formatDate,
   MATCH_STATUS_META,
@@ -76,24 +85,6 @@ const TEMPLATE_META: Array<{ value: ResumeTemplate; label: string; description: 
   { value: 'modern', label: 'Modern', description: 'Clean sans-serif with left-aligned headings.' },
   { value: 'compact', label: 'Compact', description: 'Tighter spacing for dense two-page resumes.' },
 ];
-
-function uniqueIds(ids: string[]): string[] {
-  return [...new Set(ids)];
-}
-
-function suggestedSelection(match: MatchResponse, records: PortfolioRecord[]): string[] {
-  const verified = new Set(
-    records.filter((record) => record.verificationStatus === 'verified').map((record) => record.id),
-  );
-  const strong = uniqueIds(
-    match.matches.filter((item) => item.status === 'strong').flatMap((item) => item.recordIds),
-  ).filter((id) => verified.has(id));
-  if (strong.length) return strong.slice(0, 24);
-  return match.rankedRecords
-    .filter((ranked) => verified.has(ranked.recordId))
-    .slice(0, 8)
-    .map((ranked) => ranked.recordId);
-}
 
 export function ResumeBuilderPage() {
   const { config, user } = useAuth();
@@ -175,10 +166,10 @@ export function ResumeBuilderPage() {
   }, [selectedJobId, selectedIds, title, settingsPayload, useAiSummary]);
 
   const signature = useMemo(
-    () => JSON.stringify({ ids: [...selectedIds].sort(), settings: settingsPayload, useAiSummary }),
+    () => buildBuilderSignature({ selectedIds, settings: settingsPayload, useAiSummary }),
     [selectedIds, settingsPayload, useAiSummary],
   );
-  const previewStale = Boolean(generated && generatedSignature !== signature);
+  const previewStale = isPreviewStale(generatedSignature, signature);
 
   useEffect(() => {
     if (!title && job) setTitle(`${job.jobTitle} — ${user?.displayName || 'Tailored Resume'}`);
@@ -853,13 +844,7 @@ function EvidenceStep({
   const [category, setCategory] = useState<string>('all');
   const [showAll, setShowAll] = useState(false);
 
-  const selectable = useMemo(
-    () =>
-      records.filter(
-        (record) => !['personal_info', 'summary'].includes(record.category),
-      ),
-    [records],
-  );
+  const selectable = useMemo(() => selectableRecords(records), [records]);
   const byId = useMemo(() => new Map(selectable.map((record) => [record.id, record])), [selectable]);
 
   const ranked = useMemo(() => match?.rankedRecords ?? [], [match]);
@@ -893,22 +878,18 @@ function EvidenceStep({
 
   const all = useMemo(
     () =>
-      [...selectable]
-        .sort((a, b) => {
+      filterRecords(
+        [...selectable].sort((a, b) => {
           const order = ['projects', 'experience', 'technical_skills', 'soft_skills', 'education', 'certifications'];
           return (order.indexOf(a.category) + 1 || 99) - (order.indexOf(b.category) + 1 || 99) || a.title.localeCompare(b.title);
-        })
-        .filter((record) => category === 'all' || record.category === category)
-        .filter((record) => {
-          if (!search.trim()) return true;
-          const query = search.toLowerCase();
-          return `${record.title} ${record.category} ${JSON.stringify(record.data)}`.toLowerCase().includes(query);
         }),
+        { query: search, category },
+      ),
     [selectable, category, search],
   );
 
   function toggle(id: string) {
-    onChange(selectedIds.includes(id) ? selectedIds.filter((item) => item !== id) : [...selectedIds, id]);
+    onChange(toggleSelection(selectedIds, id));
   }
 
   return (
@@ -1481,7 +1462,7 @@ function PreviewStep({
         </div>
       </div>
 
-      <div className="grid gap-4 xl:grid-cols-[1fr_300px]">
+      <div className="grid gap-4 2xl:grid-cols-[1fr_300px]">
         <div className="min-w-0">
           {view === 'document' ? (
             <div className="rounded-2xl border border-ink-200 bg-ink-100/70 p-3 sm:p-5">

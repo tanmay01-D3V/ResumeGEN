@@ -77,7 +77,7 @@ export function JobFormDialog({
       const created = await api.createJob(values);
       setStage('analyzing');
       try {
-        const analyzed = await api.analyzeJob(created.job.id);
+        const analyzed = await api.analyzeJob(created.jobDescription.id);
         if (analyzed.warning) toast.warning(analyzed.warning);
         else toast.success('Job description analyzed');
       } catch (analysisError) {
@@ -87,7 +87,7 @@ export function JobFormDialog({
             : 'Saved, but analysis failed.',
         );
       }
-      onCreated(created.job.id);
+      onCreated(created.jobDescription.id);
       onOpenChange(false);
       reset();
     } catch (error) {

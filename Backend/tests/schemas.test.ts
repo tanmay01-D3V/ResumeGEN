@@ -62,9 +62,10 @@ describe('portfolio schemas and normalisation', () => {
     ).toBe(true);
 
     expect(
-      portfolioRecordInputSchema.safeParse({
-        ...base,
-        data: { ...base.data, portfolioUrl: 'javascript:alert(1)' },
+      validateRecordData('personal_info', {
+        fullName: 'Ada Lovelace',
+        email: 'ada@example.com',
+        portfolioUrl: 'javascript:alert(1)',
       }).success,
     ).toBe(false);
   });

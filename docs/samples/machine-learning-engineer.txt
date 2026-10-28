@@ -1,0 +1,32 @@
+Machine Learning Engineer — Northstar Analytics (fictional demo company)
+
+About the role
+You will build and evaluate machine learning models that help retail teams understand customer behaviour. You will work with data engineers and product managers to turn messy data into reliable, explainable predictions.
+
+Responsibilities
+- Design, train and evaluate machine learning models using Python and scikit-learn.
+- Perform data preprocessing, feature engineering and exploratory analysis with pandas and NumPy.
+- Evaluate models with appropriate validation strategies and communicate limitations clearly.
+- Collaborate with product and engineering teams to integrate models into internal tools.
+- Document experiments and present findings to non-technical stakeholders.
+
+Required qualifications
+- Bachelor's degree in Computer Science, Data Science or a related field.
+- 0-2 years of experience building machine learning projects, including academic or internship work.
+- Strong Python programming skills.
+- Solid understanding of machine learning fundamentals, data preprocessing and model evaluation.
+- Experience with scikit-learn and pandas.
+- At least one relevant machine learning project.
+- Strong communication and analytical skills.
+
+Preferred qualifications
+- Experience with TensorFlow or PyTorch.
+- Familiarity with Docker and SQL.
+- Experience deploying a model or data pipeline.
+- Exposure to AWS is a plus.
+- AWS Certified Machine Learning – Specialty certification is nice to have.
+
+We evaluate every candidate on evidence of their work. Please include project context and measurable results where available.
+
+---
+Fictional sample for ResumeGEN demos. Any resemblance to a real posting is coincidental.

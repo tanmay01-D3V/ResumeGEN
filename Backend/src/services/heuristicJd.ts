@@ -1,5 +1,5 @@
 import { jdAnalysisSchema, type JDAnalysis } from '../../../shared/schemas';
-import { extractSkills, normalizeForCompare, splitSentences, STOPWORDS, titleCase, uniqueBy } from '../utils/text';
+import { extractSkills, normalizeForCompare, splitSentences, STOPWORDS, stripListMarker, titleCase, uniqueBy } from '../utils/text';
 import { sanitizeSingleLine } from '../utils/sanitize';
 
 const PREFERRED_CONTEXT =
@@ -12,6 +12,9 @@ const EXPERIENCE_CONTEXT =
   /(\d+\s*(?:\+|to|-|–)?\s*\d*\s*\+?\s*years?)|entry[- ]level|fresh graduate|internship experience/i;
 const RESPONSIBILITY_CONTEXT =
   /responsibilit|you will|design|develop|build|implement|maintain|analy[sz]e|collaborate|deploy|optimis|optimiz|create|manage|evaluate|research|test|automate|integrate|document|present/i;
+/** Text that tries to instruct the extractor is ignored as untrusted data. */
+const PROMPT_INJECTION_CONTEXT =
+  /ignore (?:all |any )?(?:previous|prior|above|earlier) instructions|disregard (?:all |any )?(?:previous|prior|above) instructions|system prompt|you are now|act as (?:an?|the) |return the candidate|prompt injection|jailbreak/i;
 
 const SOFT_SKILLS = new Set([
   'communication',
@@ -23,10 +26,7 @@ const SOFT_SKILLS = new Set([
 ]);
 
 function cleanLine(value: string): string {
-  return value
-    .replace(/^[\s•●▪◦*\-–—\d.)]+/, '')
-    .replace(/\s+/g, ' ')
-    .trim();
+  return stripListMarker(value).replace(/\s+/g, ' ').trim();
 }
 
 function pushUnique(target: string[], value: string, max = 40): void {
@@ -78,6 +78,7 @@ export function heuristicAnalyzeJobDescription(input: {
     line.length < 90;
 
   for (const unit of units) {
+    if (PROMPT_INJECTION_CONTEXT.test(unit)) continue;
     if (isPreferredHeading(unit)) section = 'preferred';
     else if (isRequiredHeading(unit)) section = 'required';
     else if (isResponsibilityHeading(unit)) section = 'responsibilities';
@@ -109,6 +110,7 @@ export function heuristicAnalyzeJobDescription(input: {
 
   section = 'neutral';
   for (const line of units) {
+    if (PROMPT_INJECTION_CONTEXT.test(line)) continue;
     if (isPreferredHeading(line)) {
       section = 'preferred';
       continue;
@@ -134,6 +136,7 @@ export function heuristicAnalyzeJobDescription(input: {
 
   // Pull explicit years-of-experience fragments even when embedded mid-sentence.
   for (const sentence of sentences) {
+    if (PROMPT_INJECTION_CONTEXT.test(sentence)) continue;
     const match = sentence.match(/(?:\d+\+?\s*(?:to|-|–)\s*\d+\s*years?|\d+\+?\s*years?|\d+\s*years?)[^.]{0,120}/i);
     if (match) pushUnique(experienceRequirements, match[0], 12);
   }
@@ -141,6 +144,7 @@ export function heuristicAnalyzeJobDescription(input: {
   const responsibilities: string[] = [];
   section = 'neutral';
   for (const line of units) {
+    if (PROMPT_INJECTION_CONTEXT.test(line)) continue;
     if (isPreferredHeading(line) || isRequiredHeading(line)) {
       section = 'qualifications';
       continue;

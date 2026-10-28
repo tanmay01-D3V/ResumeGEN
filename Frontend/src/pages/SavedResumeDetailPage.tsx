@@ -189,7 +189,7 @@ export function SavedResumeDetailPage() {
         </InlineNotice>
       ) : null}
 
-      <div className="grid gap-5 xl:grid-cols-[1fr_320px]">
+      <div className="grid gap-5 2xl:grid-cols-[1fr_320px]">
         <div className="min-w-0 space-y-3">
           <div className="flex items-center justify-between rounded-2xl border border-ink-200 bg-white px-3 py-2 shadow-card">
             <div className="flex items-center gap-1">

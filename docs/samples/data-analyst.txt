@@ -1,0 +1,32 @@
+Data Analyst — Meridian Retail Insights (fictional demo company)
+
+About the role
+Our analytics team turns retail and operations data into decisions. You will clean messy extracts, write SQL, build recurring reports and explain what the numbers mean to people who do not work in data.
+
+Responsibilities
+- Write SQL queries to pull, join and aggregate data from relational databases.
+- Clean and prepare datasets with Python and pandas, documenting assumptions and known limitations.
+- Build and maintain recurring reports and dashboards in Excel or a BI tool.
+- Investigate data quality issues and reconcile conflicting sources before reporting.
+- Present findings and recommendations to non-technical stakeholders.
+- Work with operations and finance partners to define the metrics that matter.
+
+Required qualifications
+- Bachelor's degree in Statistics, Economics, Computer Science, Business Analytics or a related field.
+- 0-2 years of experience in an analytics role, internship or substantial academic project.
+- Strong SQL skills, including joins, aggregation and window functions.
+- Working knowledge of Python and pandas for data cleaning and analysis.
+- Strong Microsoft Excel skills, including formulas and pivot tables.
+- Solid grounding in descriptive statistics and basic experiment interpretation.
+- Clear written and verbal communication skills.
+
+Preferred qualifications
+- Experience with Tableau, Power BI or a similar BI tool.
+- Exposure to dbt, Airflow or another data pipeline tool.
+- Experience with retail, e-commerce or operations data.
+- Familiarity with Git and reproducible analysis notebooks.
+
+Please include a sample analysis or project write-up. We care more about how you framed the question, checked the data and explained uncertainty than about a perfect chart.
+
+---
+Fictional sample for ResumeGEN demos. Any resemblance to a real posting is coincidental.
