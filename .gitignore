@@ -1,0 +1,54 @@
+# dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# environment / secrets
+.env
+.env.*
+!.env.example
+!.env.test.example
+credentials/
+*.pem
+*.key
+service-account*.json
+
+# build output
+dist/
+dist-ssr/
+build/
+*.tsbuildinfo
+
+# local data
+Backend/.data/
+.data/
+*.sqlite
+*.db
+
+# logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# editors / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# test / coverage
+coverage/
+playwright-report/
+test-results/
+
+# generated resumes
+generated/
+*.pdf
+!docs/**/*.pdf
